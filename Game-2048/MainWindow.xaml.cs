@@ -20,21 +20,10 @@ namespace Game2048
     /// </summary>
     public partial class MainWindow : Window
     {
-        Button[,] Btns = new Button[4, 4];
-
         public MainWindow()
         {
             InitializeComponent();
 
-            for (int i=0; i<4; i++)
-                for (int j=0; j<4; j++)
-                {
-                    Btns[i, j] = new Button();
-                    Btns[i, j].BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("Black")); // Black border
-                    Grid.SetColumn(Btns[i, j], j);
-                    Grid.SetRow(Btns[i, j], i+1);
-                    Main.Children.Add(Btns[i, j]);
-                }
         }
     }
 }
