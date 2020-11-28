@@ -15,34 +15,32 @@ using System.Windows.Shapes;
 
 namespace Game2048
 {
-        public class MainPanel
+    public class MainPanel
+    {
+        /// <summary>
+        /// Implementation class for the main panel
+        /// </summary>
+        private short rows;
+        private short columns;
+
+        // A List of Buttons
+        public Button[,] Btns { get; set; }
+
+        // BoardSize property sets the number of the rows and columns
+        public short BoardSize
         {
-            /// <summary>
-            /// Implementation class for the main panel
-            /// </summary>
-
-            private short rows;
-            private short columns;
-
-            // A List of Buttons
-            public Button[,] Btns { get; set; }
-
-            // BoardSize property sets the number of the rows and columns
-            public short BoardSize
+            get => rows;
+            set
             {
-                // For now, the only BoardSize allowed is 4 by 4
-                get => rows;
-                set
-                {
-                    if (value > 3) rows = columns = value;
-                    else throw new InvalidBoardSizeException("Size must be positive and greater than 3");
-                }
+                if (value > 3) rows = columns = value;
+                else throw new InvalidBoardSizeException("Size must be positive and greater than 3");
             }
-
-            public MainPanel() { }
-            public MainPanel(short BoardSize) { this.BoardSize = BoardSize; }
-
         }
+
+        public MainPanel() { }
+        public MainPanel(short BoardSize) { this.BoardSize = BoardSize; }
+
+    }
 
     [Serializable()]
     public class InvalidBoardSizeException : System.Exception

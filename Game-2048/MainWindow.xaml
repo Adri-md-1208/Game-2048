@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:_2048"
         mc:Ignorable="d"
-        Title="MainWindow" Height="700" Width="500">
+        Title="MainWindow" Height="600" Width="500">
     <Grid Name="Main">
 
         <Grid.ColumnDefinitions>
@@ -16,7 +16,7 @@
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="1.5*"/>
+            <RowDefinition Height="1.25*"/>
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
@@ -24,7 +24,16 @@
         </Grid.RowDefinitions>
 
         <Viewbox Name="Info" Margin="20">
-            <StackPanel Orientation="Horizontal" MaxWidth="100">
+            <StackPanel Orientation="Vertical" MaxWidth="100">
+                <TextBlock
+                    TextWrapping="Wrap"
+                    Width="30"
+                    FontSize="7"
+                    FontFamily="Consolas"
+                    FontStyle="Italic"
+                    Foreground="Black"
+                    Text="Adrian Morales"
+                />
                 <TextBlock
                     TextWrapping="Wrap"
                     Width="30"
@@ -32,9 +41,8 @@
                     FontFamily="Consolas"
                     FontStyle="Italic"
                     Foreground="Black"
-                    Text="Adrian Morales, 
-                    Adri-md-1208
-                    on GitHub"
+                    Text="
+                    Adri-md-1208"
                 />
             </StackPanel>
         </Viewbox>
@@ -46,7 +54,7 @@
             BorderBrush="Black"
             Background="DarkSeaGreen"
             Foreground="Black"
-            Margin="40,60,20,60"
+            Margin="20,30,10,30"
         />
 
         <Button Name="Undo" 
@@ -56,39 +64,37 @@
             BorderBrush="Black"
             Background="IndianRed"
             Foreground="Black"
-            Margin="20,60,40,60"
+            Margin="10,30,20,30"
         />
 
-        <StackPanel Grid.Row="0" Grid.Column="3"
-                    Orientation="Vertical" 
-                    CanHorizontallyScroll="True">
+        <Viewbox Grid.Row="0" Grid.Column="3">
+            <StackPanel Orientation="Vertical">
+                <TextBlock 
+                    Text="Score"
+                    Foreground="RoyalBlue"
+                    TextAlignment="Center"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
+                    FontSize="20"
+                    FontFamily="Consolas"
+                    FontStyle="Oblique"
+                    Height="30"
+                    Width="100"
+                />
+                <Label 
+                    Name="Score"
+                    Content="0"
+                    Foreground="DarkOrange"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Top"
+                    FontSize="20"
+                    FontFamily="Consolas"
+                    Height="40"
+                    Width="100"
+                />
 
-            <TextBlock 
-                Name="ScoreText" 
-                Text="Score"
-                Foreground="RoyalBlue"
-                TextAlignment="Center"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Bottom"
-                FontSize="30"
-                FontFamily="Consolas"
-                FontStyle="Oblique"
-                Height="40"
-                Width="125"
-            />
-            <Label 
-                Name="Score"
-                Content="0"
-                Foreground="DarkOrange"
-                HorizontalContentAlignment="Center"
-                VerticalContentAlignment="Top"
-                FontSize="35"
-                FontFamily="Consolas"
-                Height="45"
-                Width="125"
-            />
-
-        </StackPanel>
+            </StackPanel>
+        </Viewbox>
 
     </Grid>
 </Window>

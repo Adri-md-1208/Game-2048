@@ -38,6 +38,7 @@ namespace Game2048
                     Grid.SetColumn(panel.Btns[i, j], j);
                     Grid.SetRow(panel.Btns[i, j], i + 1);
                     Main.Children.Add(panel.Btns[i, j]);
+                    panel.Btns[i, j].Content = (int)i * 10 + j;
                 }
         }
     }
