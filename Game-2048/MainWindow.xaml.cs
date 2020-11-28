@@ -23,9 +23,22 @@ namespace Game2048
         public MainWindow()
         {
             InitializeComponent();
-
             MainPanel panel = new MainPanel() { BoardSize = 4 };
+            InitializeGame(panel);
 
+        }
+
+        public void InitializeGame(MainPanel panel)
+        {
+            panel.Btns = new Button[panel.BoardSize, panel.BoardSize];
+            for (int i = 0; i < panel.BoardSize; i++)
+                for (int j = 0; j < panel.BoardSize; j++)
+                {
+                    panel.Btns[i, j] = new Button();
+                    Grid.SetColumn(panel.Btns[i, j], j);
+                    Grid.SetRow(panel.Btns[i, j], i + 1);
+                    Main.Children.Add(panel.Btns[i, j]);
+                }
         }
     }
 }
