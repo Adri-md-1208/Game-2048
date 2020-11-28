@@ -24,6 +24,8 @@ namespace Game2048
         {
             InitializeComponent();
 
+            MainPanel panel = new MainPanel() { BoardSize = 4 };
+
         }
     }
 }
