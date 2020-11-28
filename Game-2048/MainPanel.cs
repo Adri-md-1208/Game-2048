@@ -49,7 +49,7 @@ namespace Game2048
                         Btns[i, j] = new Button();
                         Grid.SetColumn(Btns[i, j], j);
                         Grid.SetRow(Btns[i, j], i + 1);
-                        .Add(Btns[i, j]); //TODO: Refactorize the class and link with the MainWindow
+                        Main.Children.Add(Btns[i, j]); //TODO: Refactorize the class and link with the MainWindow
                     }
             }
         }
