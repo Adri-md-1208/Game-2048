@@ -23,8 +23,8 @@ namespace Game2048
         private short rows;
         private short columns;
 
-        // A List of Buttons
-        public Button[,] Btns { get; set; }
+        // A List of Labels
+        public Label[,] Cells { get; set; }
 
         // BoardSize property sets the number of the rows and columns
         public short BoardSize
