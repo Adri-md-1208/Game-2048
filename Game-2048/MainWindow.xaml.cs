@@ -24,28 +24,13 @@ namespace Game2048
         public MainWindow()
         {
             InitializeComponent();
-            MainPanel panel = new MainPanel() { BoardSize = 4 };
-            InitializeGame(panel);
-
+            MainPanel panel = new MainPanel(4);
+            GameManager.InitializeGame(panel, Main); // Main is the Grid of the xaml application
         }
 
-        public void InitializeGame(MainPanel panel)
+        public void UpdateGame(MainPanel panel)
         {
-            panel.Cells = new Label[panel.BoardSize, panel.BoardSize];
-            for (int i = 0; i < panel.BoardSize; i++)
-                for (int j = 0; j < panel.BoardSize; j++)
-                {
-                    panel.Cells[i, j] = new Label();
-                    Grid.SetColumn(panel.Cells[i, j], j);
-                    Grid.SetRow(panel.Cells[i, j], i + 1);
-                    Main.Children.Add(panel.Cells[i, j]);
-                    panel.Cells[i, j].Content = (int)i * 10 + j;
-                    panel.Cells[i, j].HorizontalContentAlignment = HorizontalAlignment.Center;
-                    panel.Cells[i, j].VerticalContentAlignment = VerticalAlignment.Center;
-                    panel.Cells[i, j].FontSize = 25;
-                    panel.Cells[i, j].Background = System.Drawing.Color.IndianRed;
-
-                }
+            
         }
     }
 }

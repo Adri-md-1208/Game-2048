@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:_2048"
+        xmlns:local="clr-namespace:Game2048"
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="500">
     <Grid Name="Main">
@@ -12,7 +12,7 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
             <ColumnDefinition/>
-            <ColumnDefinition Width="125"/>
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
@@ -92,7 +92,6 @@
                     Height="40"
                     Width="100"
                 />
-
             </StackPanel>
         </Viewbox>
 

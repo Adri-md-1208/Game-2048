@@ -20,10 +20,11 @@ namespace Game2048
         /// <summary>
         /// Implementation class for the main panel
         /// </summary>
+        
         private short rows;
         private short columns;
 
-        // A List of Labels
+        // A List of Labels representing the Grid
         public Label[,] Cells { get; set; }
 
         // BoardSize property sets the number of the rows and columns
@@ -42,7 +43,6 @@ namespace Game2048
 
     }
 
-    [Serializable()]
     public class InvalidBoardSizeException : System.Exception
     {
         /// <summary>
