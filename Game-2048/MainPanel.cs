@@ -25,7 +25,7 @@ namespace Game2048
         private short columns;
 
         // A List of Labels representing the Grid
-        public Label[,] Cells { get; set; }
+        public Cell[,] Cells { get; set; }
 
         // BoardSize property sets the number of the rows and columns
         public short BoardSize
@@ -39,7 +39,11 @@ namespace Game2048
         }
 
         public MainPanel() { }
-        public MainPanel(short BoardSize) { this.BoardSize = BoardSize; }
+        public MainPanel(short BoardSize) 
+        { 
+            this.BoardSize = BoardSize;
+            Cells = new Cell[BoardSize, BoardSize];
+        }
 
     }
 

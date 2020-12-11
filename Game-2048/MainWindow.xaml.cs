@@ -21,16 +21,19 @@ namespace Game2048
     /// </summary>
     public partial class MainWindow : Window
     {
+        private MainPanel panel = new MainPanel(4); // 4x4 game
+
         public MainWindow()
         {
             InitializeComponent();
-            MainPanel panel = new MainPanel(4);
-            GameManager.InitializeGame(panel, Main); // Main is the Grid of the xaml application
+            GameManager.InitializeGame(panel, cellsGrid);
+            GameManager.UpdateGame(panel, cellsGrid);
         }
 
-        public void UpdateGame(MainPanel panel)
+        private void Start_Click(object sender, RoutedEventArgs e)
         {
-            
+            GameManager.InitializeGame(panel, cellsGrid);
+            GameManager.SpawnCell(panel, cellsGrid);
         }
     }
 }

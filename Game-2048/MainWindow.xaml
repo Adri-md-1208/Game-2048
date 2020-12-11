@@ -6,94 +6,260 @@
         xmlns:local="clr-namespace:Game2048"
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="500">
-    <Grid Name="Main">
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
+    <Grid>
 
         <Grid.RowDefinitions>
             <RowDefinition Height="1.25*"/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition Height="4*"/>
         </Grid.RowDefinitions>
+    
+        <Grid Name="Header" Grid.Row="0">
 
-        <Viewbox Name="Info" Margin="20">
-            <StackPanel Orientation="Vertical" MaxWidth="100">
-                <TextBlock
-                    TextWrapping="Wrap"
-                    Width="30"
-                    FontSize="7"
-                    FontFamily="Consolas"
-                    FontStyle="Italic"
-                    Foreground="Black"
-                    Text="Adrian Morales"
-                />
-                <TextBlock
-                    TextWrapping="Wrap"
-                    Width="30"
-                    FontSize="4"
-                    FontFamily="Consolas"
-                    FontStyle="Italic"
-                    Foreground="Black"
-                    Text="
-                    Adri-md-1208"
-                />
-            </StackPanel>
-        </Viewbox>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
 
-        <Button Name="Start" 
-            Grid.Column="1" 
-            Grid.Row="0"
-            Content="Start"
-            BorderBrush="Black"
-            Background="DarkSeaGreen"
-            Foreground="Black"
-            Margin="20,30,10,30"
-        />
+            <Viewbox Name="Info" Margin="20">
+                <StackPanel Orientation="Vertical" MaxWidth="100">
+                    <TextBlock
+                        TextWrapping="Wrap"
+                        Width="30"
+                        FontSize="7"
+                        FontFamily="Consolas"
+                        FontStyle="Italic"
+                        Foreground="Black"
+                        Text="Adrian Morales"
+                    />
+                    <TextBlock
+                        TextWrapping="Wrap"
+                        Width="30"
+                        FontSize="4"
+                        FontFamily="Consolas"
+                        FontStyle="Italic"
+                        Foreground="Black"
+                        Text="
+                        Adri-md-1208"
+                    />
+                </StackPanel>
+            </Viewbox>
 
-        <Button Name="Undo" 
-            Grid.Column="2" 
-            Grid.Row="0"
-            Content="Undo"
-            BorderBrush="Black"
-            Background="IndianRed"
-            Foreground="Black"
-            Margin="10,30,20,30"
-        />
+            <Button Name="Start" 
+                Grid.Column="1" 
+                Grid.Row="0"
+                Content="Start"
+                BorderBrush="Black"
+                Background="DarkSeaGreen"
+                Foreground="Black"
+                Margin="20,30,10,30"
+                Click="Start_Click"
+            />
 
-        <Viewbox Grid.Row="0" Grid.Column="3">
-            <StackPanel Orientation="Vertical">
-                <TextBlock 
-                    Text="Score"
-                    Foreground="RoyalBlue"
-                    TextAlignment="Center"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Bottom"
-                    FontSize="20"
-                    FontFamily="Consolas"
-                    FontStyle="Oblique"
-                    Height="30"
-                    Width="100"
-                />
-                <Label 
-                    Name="Score"
-                    Content="0"
-                    Foreground="DarkOrange"
-                    HorizontalContentAlignment="Center"
-                    VerticalContentAlignment="Top"
-                    FontSize="20"
-                    FontFamily="Consolas"
-                    Height="40"
-                    Width="100"
-                />
-            </StackPanel>
-        </Viewbox>
+            <Button Name="Undo" 
+                Grid.Column="2" 
+                Grid.Row="0"
+                Content="Undo"
+                BorderBrush="Black"
+                Background="IndianRed"
+                Foreground="Black"
+                Margin="10,30,20,30"
+            />
+
+            <Viewbox Grid.Row="0" Grid.Column="3">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock 
+                        Text="Score"
+                        Foreground="RoyalBlue"
+                        TextAlignment="Center"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Bottom"
+                        FontSize="20"
+                        FontFamily="Consolas"
+                        FontStyle="Oblique"
+                        Height="30"
+                        Width="100"
+                    />
+                    <Label 
+                        Name="Score"
+                        Content="0"
+                        Foreground="DarkOrange"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Top"
+                        FontSize="20"
+                        FontFamily="Consolas"
+                        Height="40"
+                        Width="100"
+                    />
+                </StackPanel>
+            </Viewbox>
+
+        </Grid>
+
+        <Grid Name="cellsGrid" Grid.Row="1">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Label 
+                Name="Cell00"
+                Grid.Row="0"
+                Grid.Column="0"
+                Margin="5" 
+                FontSize="25"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"/>
+
+            <Label 
+                Name="Cell01"
+                Grid.Row="0"
+                Grid.Column="1"
+                Margin="5" 
+                FontSize="25"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"/>
+
+            <Label 
+                Name="Cell02"
+                Grid.Row="0"
+                Grid.Column="2"
+                Margin="5" 
+                FontSize="25"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"/>
+
+            <Label 
+                Name="Cell03"
+                Grid.Row="0"
+                Grid.Column="3"
+                Margin="5" 
+                FontSize="25"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"/>
+
+            <Label 
+                Name="Cell10"  
+                Grid.Row="1"
+                Grid.Column="0"
+                Margin="5" 
+                FontSize="25"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"/>
+
+            <Label 
+                Name="Cell11"  
+                Grid.Row="1"
+                Grid.Column="1"
+                Margin="5" 
+                FontSize="25"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"/>
+
+            <Label 
+                Name="Cell12"  
+                Grid.Row="1"
+                Grid.Column="2"
+                Margin="5" 
+                FontSize="25"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"/>
+
+            <Label 
+                Name="Cell13"  
+                Grid.Row="1"
+                Grid.Column="3"
+                Margin="5" 
+                FontSize="25"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"/>
+
+            <Label 
+                Name="Cell20"  
+                Grid.Row="2"
+                Grid.Column="0"
+                Margin="5" 
+                FontSize="25"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"/>
+
+            <Label 
+                Name="Cell21"
+                Grid.Row="2"
+                Grid.Column="1"
+                Margin="5" 
+                FontSize="25"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"/>
+
+            <Label 
+                Name="Cell22"
+                Grid.Row="2"
+                Grid.Column="2"
+                Margin="5" 
+                FontSize="25"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"/>
+
+            <Label 
+                Name="Cell23"
+                Grid.Row="2"
+                Grid.Column="3"
+                Margin="5" 
+                FontSize="25"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"/>
+
+            <Label 
+                Name="Cell30"
+                Grid.Row="3"
+                Grid.Column="0"
+                Margin="5" 
+                FontSize="25"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"/>
+
+            <Label 
+                Name="Cell31"
+                Grid.Row="3"
+                Grid.Column="1"
+                Margin="5"
+                FontSize="25"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"/>
+
+            <Label 
+                Name="Cell32"
+                Grid.Row="3"
+                Grid.Column="2"
+                Margin="5" 
+                FontSize="25"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"/>
+
+            <Label 
+                Name="Cell33"
+                Grid.Row="3"
+                Grid.Column="3"
+                Margin="5" 
+                FontSize="25"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"/>
+
+        </Grid>
 
     </Grid>
+    
 </Window>

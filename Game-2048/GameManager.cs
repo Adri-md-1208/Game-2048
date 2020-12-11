@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -11,67 +10,64 @@ namespace Game2048
     {
         public static void InitializeGame(MainPanel panel, Grid grid)
         {
-            panel.Cells = new Label[panel.BoardSize, panel.BoardSize];
             for (int i = 0; i < panel.BoardSize; i++)
                 for (int j = 0; j < panel.BoardSize; j++)
                 {
-                    panel.Cells[i, j] = GenerateCell(2);
-                    Grid.SetColumn(panel.Cells[i, j], j);
-                    Grid.SetRow(panel.Cells[i, j], i + 1);
-                    grid.Children.Add(panel.Cells[i, j]);
-                    panel.Cells[i, j].Content = (int)i * 10 + j;
-                    panel.Cells[i, j].HorizontalContentAlignment = HorizontalAlignment.Center;
-                    panel.Cells[i, j].VerticalContentAlignment = VerticalAlignment.Center;
-                    panel.Cells[i, j].FontSize = 25;
+                    Cell cell = new Cell();
+                    PutCellInPanel(cell, panel, i, j);
                 }
         }
 
-        public static Label GenerateCell(int value)
+        public static void UpdateGame(MainPanel panel, Grid grid)
         {
-            switch (value)
-            {
-                case 2:
-                    return new Label() {
-                        Background = Brushes.AntiqueWhite,
-                        Padding = new Thickness(10)
-                    };
-                    break;
-                case 4:
-                    return new Label() { BorderBrush = Brushes.Red };
-                    break;
-                case 8:
-                    return new Label() { BorderBrush = Brushes.Red };
-                    break;
-                case 16:
-                    return new Label() { BorderBrush = Brushes.Red };
-                    break;
-                case 32:
-                    return new Label();
-                    break;
-                case 64:
-                    return new Label();
-                    break;
-                case 128:
-                    return new Label();
-                    break;
-                case 256:
-                    return new Label();
-                    break;
-                case 512:
-                    return new Label();
-                    break;
-                case 1024:
-                    return new Label();
-                    break;
-                case 2048:
-                    return new Label();
-                    break;
-                default:
-                    // Create exception
-                    return new Label();
-                    break;
-            }
-
+            // This loop updates the values of all cells
+            for (int i = 0; i < panel.BoardSize; i++)
+                for (int j = 0; j < panel.BoardSize; j++)
+                {
+                    grid.Children
+                        .Cast<UIElement>()
+                        .First(cell => Grid.GetRow(cell) == i && Grid.GetColumn(cell) == j)
+                        .SetValue(ContentControl.ContentProperty, panel.Cells[i, j].GetValue());
+                    grid.Children
+                        .Cast<UIElement>()
+                        .First(cell => Grid.GetRow(cell) == i && Grid.GetColumn(cell) == j)
+                        .SetValue(Control.BackgroundProperty, panel.Cells[i, j].GetColor());
+                }
+            // This loop checks for 0's cells and dont show it
+            for (int i = 0; i < panel.BoardSize; i++)
+                for (int j = 0; j < panel.BoardSize; j++)
+                {
+                    if ((Int32)grid.Children
+                        .Cast<UIElement>()
+                        .First(cell => Grid.GetRow(cell) == i && Grid.GetColumn(cell) == j)
+                        .GetValue(ContentControl.ContentProperty)
+                        == 0)
+                        grid.Children
+                            .Cast<UIElement>()
+                            .First(cell => Grid.GetRow(cell) == i && Grid.GetColumn(cell) == j)
+                            .SetValue(ContentControl.ContentProperty, null);
+                }
         }
+        
+        public static void PutCellInPanel(Cell cell, MainPanel panel, int x, int y)
+        {
+            panel.Cells[x, y] = cell;
+        }
+
+        public static void SpawnCell(MainPanel panel, Grid grid)
+        {
+            var rng = new Random();
+            int x, y;
+            do
+            {
+                x = rng.Next(panel.BoardSize);
+                y = rng.Next(panel.BoardSize);
+            } while (panel.Cells[x, y].GetValue() != 0);
+
+            Cell cell = new Cell(2);
+            PutCellInPanel(cell, panel, x, y);
+            UpdateGame(panel, grid);
+        }
+
     }
 }
