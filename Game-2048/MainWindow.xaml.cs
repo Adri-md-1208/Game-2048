@@ -1,18 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Game2048
 {
@@ -34,6 +22,30 @@ namespace Game2048
         {
             GameManager.InitializeGame(panel, cellsGrid);
             GameManager.SpawnCell(panel, cellsGrid);
+        }
+
+        // Event that manage the user input (arrow keys)
+        private void grid_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Up)
+            {
+                
+            }
+
+            if (e.Key == Key.Down)
+            {
+                
+            }
+
+            if (e.Key == Key.Left)
+            {
+                
+            }
+
+            if (e.Key == Key.Right)
+            {
+                
+            }
         }
     }
 }

@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 
 namespace Game2048
 {
@@ -67,7 +66,7 @@ namespace Game2048
             Cell cell = new Cell(2);
             PutCellInPanel(cell, panel, x, y);
             UpdateGame(panel, grid);
-        }
+        } 
 
     }
 }

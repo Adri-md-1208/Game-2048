@@ -1,17 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Game2048
 {
@@ -45,6 +34,28 @@ namespace Game2048
             Cells = new Cell[BoardSize, BoardSize];
         }
 
+        public void PushCellsLeft()
+        {
+            for (int i = 0; i < BoardSize; i++) // Accesing rows
+            {
+                Cell[] row = getRow(Cells, i);
+                row.OrderBy<Cell, int>()
+            }
+        }
+
+        private Cell[] getRow(Cell[,] cells, int row) 
+        {
+            return Enumerable.Range(0, cells.GetLength(1)) // Rows = 1st dim [*,]
+                .Select(x => cells[x, row])
+                .ToArray();
+        }
+
+        private Cell[] getColumn(Cell[,] cells, int column)
+        {
+            return Enumerable.Range(0, cells.GetLength(0)) // Columns = 0 dim [,*]
+                .Select(x => cells[column, x])
+                .ToArray();
+        }
     }
 
     public class InvalidBoardSizeException : System.Exception
