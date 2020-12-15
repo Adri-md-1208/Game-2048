@@ -29,12 +29,16 @@ namespace Game2048
         {
             if (e.Key == Key.Up)
             {
-                
+                panel.PushCellsUp();
+                GameManager.SpawnCell(panel, cellsGrid);
+                GameManager.UpdateGame(panel, cellsGrid);
             }
 
             if (e.Key == Key.Down)
             {
-                
+                panel.PushCellsDown();
+                GameManager.SpawnCell(panel, cellsGrid);
+                GameManager.UpdateGame(panel, cellsGrid);
             }
 
             if (e.Key == Key.Left)

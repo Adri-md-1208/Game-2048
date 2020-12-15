@@ -67,6 +67,5 @@ namespace Game2048
             PutCellInPanel(cell, panel, x, y);
             UpdateGame(panel, grid);
         } 
-
     }
 }

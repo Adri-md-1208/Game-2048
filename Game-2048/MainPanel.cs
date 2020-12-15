@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 
@@ -35,27 +34,162 @@ namespace Game2048
             Cells = new Cell[BoardSize, BoardSize];
         }
 
-        public void PushCellsLeft()
+        public void PushCellsUp()
         {
-            for (int i = 0; i < BoardSize; i++) // Accesing rows
+            for (int i = 0; i < BoardSize; i++)
+            {
+                Cell[] column = getColumn(Cells, i);
+
+                // Push 0's to the bottom
+                for (int x = 0; x < column.Length - 1; x++)
+                {
+                    if (column[x].GetValue() == 0)
+                    {
+                        column[x] = column[x + 1];
+                        column[x + 1] = new Cell(0);
+                    }
+                }
+
+                // Removing 0's from the middle
+                for (int x = 0; x < column.Length - 1; x++)
+                {
+                    if (column[x].GetValue() == 0)
+                    {
+                        column[x] = column[x + 1];
+                        column[x + 1] = new Cell(0);
+                    }
+                }
+
+                // Looking for pairs
+                for (int x = 0; x < column.Length - 1; x++)
+                {
+                    if (column[x].GetValue() == column[x + 1].GetValue())
+                    {
+                        column[x] = new Cell(column[x + 1].GetValue() * 2);
+                        column[x + 1] = new Cell(0);
+                    }
+                }
+
+                // Removing 0's from the middle again
+                for (int x = 0; x < column.Length - 1; x++)
+                {
+                    if (column[x].GetValue() == 0)
+                    {
+                        column[x] = column[x + 1];
+                        column[x + 1] = new Cell(0);
+                    }
+                }
+
+                // Updating the data in the matrix
+                for (int j = 0; j < column.Length; j++)
+                {
+                    Cells[j, i] = column[j];
+                }
+            }
+        }
+
+        public void PushCellsDown()
+        {
+            for (int i = 0; i < BoardSize; i++)
+            {
+                Cell[] column = getColumn(Cells, i);
+
+                // Push 0's to the top
+                for (int x = 1; x < column.Length; x++)
+                {
+                    if (column[x].GetValue() == 0)
+                    {
+                        column[x] = column[x - 1];
+                        column[x - 1] = new Cell(0);
+                    }
+                }
+
+                // Removing 0's from the middle
+                for (int x = 1; x < column.Length; x++)
+                {
+                    if (column[x].GetValue() == 0)
+                    {
+                        column[x] = column[x - 1];
+                        column[x - 1] = new Cell(0);
+                    }
+                }
+
+                // Looking for pairs
+                for (int x = 1; x < column.Length; x++)
+                {
+                    if (column[x].GetValue() == column[x - 1].GetValue())
+                    {
+                        column[x] = new Cell(column[x - 1].GetValue() * 2);
+                        column[x - 1] = new Cell(0);
+                    }
+                }
+
+                // Removing 0's from the middle again
+                for (int x = 1; x < column.Length; x++)
+                {
+                    if (column[x].GetValue() == 0)
+                    {
+                        column[x] = column[x - 1];
+                        column[x - 1] = new Cell(0);
+                    }
+                }
+
+                // Updating the data in the matrix
+                for (int j = 0; j < column.Length; j++)
+                {
+                    Cells[j, i] = column[j];
+                }
+            }
+        }
+
+        public void PushCellsLeft() 
+        {
+            for (int i = 0; i < BoardSize; i++)
             {
                 Cell[] row = getRow(Cells, i);
-                for (int x = 0; x < row.Length; x++) // Pushing the elements of the row
+
+                // Push 0's to the left
+                for (int x = 0; x < row.Length - 1; x++)
                 {
-                    if ((x != row.Length) && (row[x].GetValue() == 0)) // Pushing the 0's to the right
+                    if (row[x].GetValue() == 0)
                     {
-                        List<Cell> firstPart = row.Take(row.Length - x).ToList();
-                        List<Cell> secondPart = row.Reverse().Take(row.Length - x - 1).ToList();
-                        row = firstPart.Append(row[x]).Concat(secondPart).ToArray();
-                    }
-                    if ((x != row.Length - 1) && (row[x].GetValue() == row[x + 1].GetValue())) // Adding equals
-                    {
-                        row[x] = new Cell(2 * row[x].GetValue());
+                        row[x] = row[x + 1];
                         row[x + 1] = new Cell(0);
                     }
                 }
 
-                for (int j = 0; j < row.Length; j++) // Accesing elements
+                // Removing 0's from the middle
+                for (int x = 0; x < row.Length - 1; x++)
+                {
+                    if (row[x].GetValue() == 0)
+                    {
+                        row[x] = row[x + 1];
+                        row[x + 1] = new Cell(0);
+                    }
+                }
+
+                // Looking for pairs
+                for (int x = 0; x < row.Length - 1; x++)
+                {
+                    if (row[x].GetValue() == row[x + 1].GetValue())
+                    {
+                        row[x] = new Cell(row[x + 1].GetValue() * 2);
+                        row[x + 1] = new Cell(0);
+                    }
+                }
+
+                // Removing 0's from the middle again
+                for (int x = 0; x < row.Length - 1; x++)
+                {
+                    if (row[x].GetValue() == 0)
+                    {
+                        row[x] = row[x + 1];
+                        row[x + 1] = new Cell(0);
+                    }
+                }
+
+                // Updating the data in the matrix
+                for (int j = 0; j < row.Length; j++)
                 {
                     Cells[i, j] = row[j];
                 }
@@ -67,41 +201,53 @@ namespace Game2048
             for (int i = 0; i < BoardSize; i++)
             {
                 Cell[] row = getRow(Cells, i);
-                Array.Sort<Cell>(row);
-                for (int j = 0; j < BoardSize; j++)
+
+                // Push 0's to the top
+                for (int x = 1; x < row.Length; x++)
+                {
+                    if (row[x].GetValue() == 0)
+                    {
+                        row[x] = row[x - 1];
+                        row[x - 1] = new Cell(0);
+                    }
+                }
+
+                // Removing 0's from the middle
+                for (int x = 1; x < row.Length; x++)
+                {
+                    if (row[x].GetValue() == 0)
+                    {
+                        row[x] = row[x - 1];
+                        row[x - 1] = new Cell(0);
+                    }
+                }
+
+                // Looking for pairs
+                for (int x = 1; x < row.Length; x++)
+                {
+                    if (row[x].GetValue() == row[x - 1].GetValue())
+                    {
+                        row[x] = new Cell(row[x - 1].GetValue() * 2);
+                        row[x - 1] = new Cell(0);
+                    }
+                }
+
+                // Removing 0's from the middle again
+                for (int x = 1; x < row.Length; x++)
+                {
+                    if (row[x].GetValue() == 0)
+                    {
+                        row[x] = row[x - 1];
+                        row[x - 1] = new Cell(0);
+                    }
+                }
+
+                // Updating the data in the matrix
+                for (int j = 0; j < row.Length; j++)
                 {
                     Cells[i, j] = row[j];
                 }
             }
-
-        }
-
-        public void PushCellsUp()
-        {
-            for (int i = 0; i < BoardSize; i++)
-            {
-                Cell[] row = getColumn(Cells, i);
-                Array.Sort(row);
-                for (int j = 0; j < BoardSize; j++)
-                {
-                    Cells[i, j] = row[j];
-                }
-            }
-
-        }
-
-        public void PushCellsDown()
-        {
-            for (int i = 0; i < BoardSize; i++)
-            {
-                Cell[] row = getRow(Cells, i);
-                Array.Sort(row);
-                for (int j = 0; j < BoardSize; j++)
-                {
-                    Cells[i, j] = row[j];
-                }
-            }
-
         }
 
         private Cell[] getRow(Cell[,] cells, int row) 
