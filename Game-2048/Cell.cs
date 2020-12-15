@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using System.Windows.Media;
 
@@ -9,7 +10,7 @@ namespace Game2048
     /// Class for the cells
     /// </summary>
 
-    public class Cell
+    public class Cell : IComparable<Cell>
     {
         private int value;
         private SolidColorBrush color;
@@ -67,5 +68,12 @@ namespace Game2048
 
         public int GetValue() => value;
         public SolidColorBrush GetColor() => color;
+
+        public int CompareTo([AllowNull] Cell other)
+        {
+            if (this.GetValue() > other.GetValue()) return 1;
+            if (this.GetValue() < other.GetValue()) return -1;
+            else return 0;
+        }
     }
 }
