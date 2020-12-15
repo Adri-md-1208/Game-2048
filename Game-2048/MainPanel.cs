@@ -94,8 +94,8 @@ namespace Game2048
             {
                 Cell[] column = getColumn(Cells, i);
 
-                // Push 0's to the top
-                for (int x = 1; x < column.Length; x++)
+                // Push 0's to the left
+                for (int x = column.Length - 1; x > 0; x--)
                 {
                     if (column[x].GetValue() == 0)
                     {
@@ -105,7 +105,7 @@ namespace Game2048
                 }
 
                 // Removing 0's from the middle
-                for (int x = 1; x < column.Length; x++)
+                for (int x = column.Length - 1; x > 0; x--)
                 {
                     if (column[x].GetValue() == 0)
                     {
@@ -115,7 +115,7 @@ namespace Game2048
                 }
 
                 // Looking for pairs
-                for (int x = 1; x < column.Length; x++)
+                for (int x = column.Length - 1; x > 0; x--)
                 {
                     if (column[x].GetValue() == column[x - 1].GetValue())
                     {
@@ -125,7 +125,7 @@ namespace Game2048
                 }
 
                 // Removing 0's from the middle again
-                for (int x = 1; x < column.Length; x++)
+                for (int x = column.Length - 1; x > 0; x--)
                 {
                     if (column[x].GetValue() == 0)
                     {
@@ -148,7 +148,7 @@ namespace Game2048
             {
                 Cell[] row = getRow(Cells, i);
 
-                // Push 0's to the left
+                // Push 0's to the right
                 for (int x = 0; x < row.Length - 1; x++)
                 {
                     if (row[x].GetValue() == 0)
@@ -202,8 +202,8 @@ namespace Game2048
             {
                 Cell[] row = getRow(Cells, i);
 
-                // Push 0's to the top
-                for (int x = 1; x < row.Length; x++)
+                // Push 0's to the left
+                for (int x = row.Length - 1; x > 0; x--)
                 {
                     if (row[x].GetValue() == 0)
                     {
@@ -213,7 +213,7 @@ namespace Game2048
                 }
 
                 // Removing 0's from the middle
-                for (int x = 1; x < row.Length; x++)
+                for (int x = row.Length - 1; x > 0; x--)
                 {
                     if (row[x].GetValue() == 0)
                     {
@@ -223,7 +223,7 @@ namespace Game2048
                 }
 
                 // Looking for pairs
-                for (int x = 1; x < row.Length; x++)
+                for (int x = row.Length - 1; x > 0; x--)
                 {
                     if (row[x].GetValue() == row[x - 1].GetValue())
                     {
@@ -233,7 +233,7 @@ namespace Game2048
                 }
 
                 // Removing 0's from the middle again
-                for (int x = 1; x < row.Length; x++)
+                for (int x = row.Length - 1; x > 0; x--)
                 {
                     if (row[x].GetValue() == 0)
                     {

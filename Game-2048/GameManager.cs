@@ -64,6 +64,14 @@ namespace Game2048
             } while (panel.Cells[x, y].GetValue() != 0);
 
             Cell cell = new Cell(2);
+            int TwoOrFour = rng.Next(4);
+
+            if (TwoOrFour == 3) // 25% probability of spawning a 4
+            {
+                cell = new Cell(4);
+            }
+            
+
             PutCellInPanel(cell, panel, x, y);
             UpdateGame(panel, grid);
         } 
