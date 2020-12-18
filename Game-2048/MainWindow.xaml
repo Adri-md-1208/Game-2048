@@ -8,7 +8,7 @@
         Title="MainWindow" Height="600" Width="500">
 
     <Grid
-        KeyDown="grid_KeyDown">
+        KeyDown="Grid_KeyDown">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="1.25*"/>

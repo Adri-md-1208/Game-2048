@@ -15,6 +15,7 @@ namespace Game2048
                     Cell cell = new Cell();
                     PutCellInPanel(cell, panel, i, j);
                 }
+            panel.Score = 0;
         }
 
         public static void UpdateGame(MainPanel panel, Grid grid)
@@ -75,5 +76,11 @@ namespace Game2048
             PutCellInPanel(cell, panel, x, y);
             UpdateGame(panel, grid);
         } 
+
+        public static void UpdateScore(MainPanel panel, Label label)
+        {
+            label.Content = panel.Score;
+
+        }
     }
 }

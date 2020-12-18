@@ -21,15 +21,17 @@ namespace Game2048
         private void Start_Click(object sender, RoutedEventArgs e)
         {
             GameManager.InitializeGame(panel, cellsGrid);
+            GameManager.UpdateScore(panel, Score);
             GameManager.SpawnCell(panel, cellsGrid);
         }
 
         // Event that manage the user input (arrow keys)
-        private void grid_KeyDown(object sender, KeyEventArgs e)
+        private void Grid_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Up)
             {
                 panel.PushCellsUp();
+                GameManager.UpdateScore(panel, Score);
                 GameManager.SpawnCell(panel, cellsGrid);
                 GameManager.UpdateGame(panel, cellsGrid);
             }
@@ -37,6 +39,7 @@ namespace Game2048
             if (e.Key == Key.Down)
             {
                 panel.PushCellsDown();
+                GameManager.UpdateScore(panel, Score);
                 GameManager.SpawnCell(panel, cellsGrid);
                 GameManager.UpdateGame(panel, cellsGrid);
             }
@@ -44,6 +47,7 @@ namespace Game2048
             if (e.Key == Key.Left)
             {
                 panel.PushCellsLeft();
+                GameManager.UpdateScore(panel, Score);
                 GameManager.SpawnCell(panel, cellsGrid);
                 GameManager.UpdateGame(panel, cellsGrid);
             }
@@ -51,6 +55,7 @@ namespace Game2048
             if (e.Key == Key.Right)
             {
                 panel.PushCellsRight();
+                GameManager.UpdateScore(panel, Score);
                 GameManager.SpawnCell(panel, cellsGrid);
                 GameManager.UpdateGame(panel, cellsGrid);
             }

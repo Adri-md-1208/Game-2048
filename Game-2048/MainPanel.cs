@@ -12,6 +12,8 @@ namespace Game2048
         
         private short rows;
         private short columns;
+        private int score;
+
 
         // A List of Labels representing the Grid
         public Cell[,] Cells { get; set; }
@@ -27,11 +29,26 @@ namespace Game2048
             }
         }
 
-        public MainPanel() { }
+        // Score of the game
+        public int Score 
+        { 
+            get => score;
+            set
+            {
+                if (score > 0) score = value;
+                else score = 0;
+            }
+        }
+
+        public MainPanel() 
+        { 
+            score = 0; 
+        }
         public MainPanel(short BoardSize) 
         { 
             this.BoardSize = BoardSize;
             Cells = new Cell[BoardSize, BoardSize];
+            score = 0;
         }
 
         public void PushCellsUp()
@@ -67,6 +84,7 @@ namespace Game2048
                     {
                         column[x] = new Cell(column[x + 1].GetValue() * 2);
                         column[x + 1] = new Cell(0);
+                        score += column[x].GetValue();
                     }
                 }
 
@@ -121,6 +139,7 @@ namespace Game2048
                     {
                         column[x] = new Cell(column[x - 1].GetValue() * 2);
                         column[x - 1] = new Cell(0);
+                        score += column[x].GetValue();
                     }
                 }
 
@@ -175,6 +194,7 @@ namespace Game2048
                     {
                         row[x] = new Cell(row[x + 1].GetValue() * 2);
                         row[x + 1] = new Cell(0);
+                        score += row[x].GetValue();
                     }
                 }
 
@@ -229,6 +249,7 @@ namespace Game2048
                     {
                         row[x] = new Cell(row[x - 1].GetValue() * 2);
                         row[x - 1] = new Cell(0);
+                        score += row[x].GetValue();
                     }
                 }
 
@@ -263,6 +284,7 @@ namespace Game2048
                 .Select(x => cells[x, column])
                 .ToArray();
         }
+
     }
 
     public class InvalidBoardSizeException : System.Exception
