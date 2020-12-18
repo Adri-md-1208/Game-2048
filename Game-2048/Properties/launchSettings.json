@@ -1,8 +1,7 @@
 {
   "profiles": {
     "Game2048": {
-      "commandName": "Project",
-      "workingDirectory": "C:\\Users\\Adrián\\OneDrive\\OneDrive - Universidad Rey Juan Carlos\\PCAG\\Escritorio\\GITHUB\\Game-2048"
+      "commandName": "Project"
     }
   }
 }
