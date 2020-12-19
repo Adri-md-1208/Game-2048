@@ -7,15 +7,16 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="500">
 
-    <Grid
-        KeyDown="Grid_KeyDown">
+    <Grid Name="mainGrid" KeyDown="Grid_KeyDown">
 
+        <!-- mainGrid containts the header and the cells grid -->
         <Grid.RowDefinitions>
             <RowDefinition Height="1.25*"/>
             <RowDefinition Height="4*"/>
         </Grid.RowDefinitions>
     
-        <Grid Name="Header" Grid.Row="0">
+        <!-- Header with the author, the score and the buttons -->
+        <Grid Name="header" Grid.Row="0">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -24,6 +25,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
+            <!-- Author info -->
             <Viewbox Name="Info" Margin="20">
                 <StackPanel Orientation="Vertical" MaxWidth="100">
                     <TextBlock
@@ -48,6 +50,7 @@
                 </StackPanel>
             </Viewbox>
 
+            <!-- Start button -->
             <Button Name="Start" 
                 Grid.Column="1" 
                 Grid.Row="0"
@@ -59,6 +62,8 @@
                 Click="Start_Click"
             />
 
+            <!-- Undo button -->
+            <!-- TODO: functionality -->
             <Button Name="Undo" 
                 Grid.Column="2" 
                 Grid.Row="0"
@@ -69,6 +74,7 @@
                 Margin="10,30,20,30"
             />
 
+            <!-- Score label -->
             <Viewbox Grid.Row="0" Grid.Column="3">
                 <StackPanel Orientation="Vertical">
                     <TextBlock 
@@ -99,7 +105,8 @@
 
         </Grid>
 
-        <Grid Name="cellsGrid" Grid.Row="1">
+        <!-- Cells grid -->
+        <Grid Name="cellsGrid" Grid.Row="1" Panel.ZIndex="1">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -260,6 +267,12 @@
                 VerticalContentAlignment="Center"/>
 
         </Grid>
+
+        <!-- This label will show the win message -->
+        <Label Name="winLabel"
+            Grid.Row="1"
+            Panel.ZIndex="0"/>
+
 
     </Grid>
     

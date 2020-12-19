@@ -7,12 +7,15 @@ namespace Game2048
     public class MainPanel
     {
         /// <summary>
-        /// Implementation class for the main panel
+        /// This class represents the board, which is binded with the grid
+        /// through the GameManager
+        /// The panel contents a matrix and some metadata like score or win status
         /// </summary>
         
         private short rows;
         private short columns;
         private int score;
+        private bool win;
 
 
         // A List of Labels representing the Grid
@@ -40,15 +43,25 @@ namespace Game2048
             }
         }
 
+        // Status of the game
+        public bool Win
+        {
+            get => win;
+            set => win = value;
+        }
+
         public MainPanel() 
         { 
-            score = 0; 
+            score = 0;
+            win = false;
         }
+
         public MainPanel(short BoardSize) 
         { 
             this.BoardSize = BoardSize;
             Cells = new Cell[BoardSize, BoardSize];
             score = 0;
+            win = false;
         }
 
         public void PushCellsUp()
@@ -85,6 +98,7 @@ namespace Game2048
                         column[x] = new Cell(column[x + 1].GetValue() * 2);
                         column[x + 1] = new Cell(0);
                         score += column[x].GetValue();
+                        if (column[x].GetValue() == 2048) win = true;
                     }
                 }
 
@@ -140,6 +154,7 @@ namespace Game2048
                         column[x] = new Cell(column[x - 1].GetValue() * 2);
                         column[x - 1] = new Cell(0);
                         score += column[x].GetValue();
+                        if (column[x].GetValue() == 2048) win = true;
                     }
                 }
 
@@ -195,6 +210,7 @@ namespace Game2048
                         row[x] = new Cell(row[x + 1].GetValue() * 2);
                         row[x + 1] = new Cell(0);
                         score += row[x].GetValue();
+                        if (row[x].GetValue() == 2048) win = true;
                     }
                 }
 
@@ -250,6 +266,7 @@ namespace Game2048
                         row[x] = new Cell(row[x - 1].GetValue() * 2);
                         row[x - 1] = new Cell(0);
                         score += row[x].GetValue();
+                        if (row[x].GetValue() == 2048) win = true;
                     }
                 }
 

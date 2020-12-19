@@ -2,25 +2,39 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace Game2048
 {
     static class GameManager
     {
-        public static void InitializeGame(MainPanel panel, Grid grid)
+        /// <summary>
+        /// The GameManager class interacts between the wpf controls and the element classes
+        /// </summary>
+        /// <param name="panel"> The panel that represents the game board. It will be connected 
+        ///                      with the cells grid control </param>
+        /// <param name="grid"> The cells grid connected with the panel object </param>
+        /// <param name="label"> The score label or the win label depending the method who use it </param>
+       
+        public static void InitializeGame(MainPanel panel, Grid grid, Label label)
         {
+            // Fill the grid with empty labels (cells with value 0)
             for (int i = 0; i < panel.BoardSize; i++)
                 for (int j = 0; j < panel.BoardSize; j++)
                 {
                     Cell cell = new Cell();
                     PutCellInPanel(cell, panel, i, j);
                 }
+            // Reset the score and the win values
             panel.Score = 0;
+            panel.Win = false;
+            ResetWinLabel(label);
         }
 
         public static void UpdateGame(MainPanel panel, Grid grid)
         {
-            // This loop updates the values of all cells
+            // This loop updates the content of every cell in the grid with
+            // his corresponding value in the cells matrix
             for (int i = 0; i < panel.BoardSize; i++)
                 for (int j = 0; j < panel.BoardSize; j++)
                 {
@@ -56,6 +70,7 @@ namespace Game2048
 
         public static void SpawnCell(MainPanel panel, Grid grid)
         {
+            // Spawns a 2 or 4 cell in random position
             var rng = new Random();
             int x, y;
             do
@@ -71,7 +86,6 @@ namespace Game2048
             {
                 cell = new Cell(4);
             }
-            
 
             PutCellInPanel(cell, panel, x, y);
             UpdateGame(panel, grid);
@@ -81,6 +95,32 @@ namespace Game2048
         {
             label.Content = panel.Score;
 
+        }
+
+        public static void CheckForWin(MainPanel panel, Label label)
+        {
+            // If the user wins, shows a label
+            if (panel.Win)
+            {
+                // Properties
+                label.Background = Brushes.Salmon;
+                label.Content = "WINNER WINNER";
+                label.FontFamily = new FontFamily("Consolas");
+                label.FontSize = 50;
+                label.HorizontalContentAlignment = HorizontalAlignment.Center;
+                label.VerticalContentAlignment = VerticalAlignment.Center;
+                // Dependency properties
+                label.SetValue(Label.OpacityProperty, 0.75);
+                label.SetValue(Panel.ZIndexProperty, 1);
+            }
+        }
+
+        private static void ResetWinLabel(Label label)
+        {
+            // Resets the win label content and hide it
+            label.SetValue(Panel.ZIndexProperty, 0);
+            label.Background = null;
+            label.Content = null;
         }
     }
 }

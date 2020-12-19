@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Text;
 using System.Windows.Media;
 
 namespace Game2048
 {
     /// <summary>
-    /// Class for the cells
+    /// Cells are the basic unit of the MainPanel
+    /// Are conected with the labels through to the GameManager class
     /// </summary>
 
     public class Cell : IComparable<Cell>
@@ -69,7 +68,8 @@ namespace Game2048
         public int GetValue() => value;
         public SolidColorBrush GetColor() => color;
 
-        public int CompareTo([AllowNull] Cell other)
+        // Allow cells to be compared with other cells
+        public int CompareTo(Cell other)
         {
             if (this.GetValue() > other.GetValue()) return 1;
             if (this.GetValue() < other.GetValue()) return -1;
