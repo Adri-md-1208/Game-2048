@@ -22,16 +22,17 @@ namespace Game2048
         {
             // Starts a new game when opens
             InitializeComponent();
-            GameManager.InitializeGame(panel, cellsGrid, winLabel);
+            GameManager.InitializeGame(panel, cellsGrid, winLabel, loseLabel);
             GameManager.UpdateGame(panel, cellsGrid);
         }
 
         private void Start_Click(object sender, RoutedEventArgs e)
         {
             // When the user clicks the start button, the game will be restarted
-            GameManager.InitializeGame(panel, cellsGrid, winLabel);
-            GameManager.UpdateScore(panel, Score);
+            GameManager.InitializeGame(panel, cellsGrid, winLabel, loseLabel);
+            GameManager.UpdateScore(panel, scoreLabel);
             GameManager.SpawnCell(panel, cellsGrid);
+            GameManager.UpdateLastState(panel);
         }
 
         private void Grid_KeyDown(object sender, KeyEventArgs e)
@@ -43,39 +44,54 @@ namespace Game2048
 
             if (e.Key == Key.Up)
             {
-                panel.PushCellsUp();
-                GameManager.UpdateScore(panel, Score);
-                GameManager.CheckForWin(panel, winLabel);
-                GameManager.SpawnCell(panel, cellsGrid);
+                GameManager.UpdateLastState(panel);
+                GameManager.MoveCells(panel, "Up");
+                GameManager.UpdateScore(panel, scoreLabel);
+                if (!((GameManager.CheckForWin(panel, winLabel)) | (GameManager.CheckForLose(panel, loseLabel))))
+                    // Not spawns if the player either win or lose
+                    GameManager.SpawnCell(panel, cellsGrid);
                 GameManager.UpdateGame(panel, cellsGrid);
             }
 
             if (e.Key == Key.Down)
             {
-                panel.PushCellsDown();
-                GameManager.UpdateScore(panel, Score);
-                GameManager.CheckForWin(panel, winLabel);
-                GameManager.SpawnCell(panel, cellsGrid);
+                GameManager.UpdateLastState(panel);
+                GameManager.MoveCells(panel, "Down");
+                GameManager.UpdateScore(panel, scoreLabel);
+                if (!((GameManager.CheckForWin(panel, winLabel)) | (GameManager.CheckForLose(panel, loseLabel))))
+                    // Not spawns if the player either win or lose
+                    GameManager.SpawnCell(panel, cellsGrid);
                 GameManager.UpdateGame(panel, cellsGrid);
             }
 
             if (e.Key == Key.Left)
             {
-                panel.PushCellsLeft();
-                GameManager.UpdateScore(panel, Score);
-                GameManager.CheckForWin(panel, winLabel);
-                GameManager.SpawnCell(panel, cellsGrid);
+                GameManager.UpdateLastState(panel);
+                GameManager.MoveCells(panel, "Left");
+                GameManager.UpdateScore(panel, scoreLabel);
+                if (!((GameManager.CheckForWin(panel, winLabel)) | (GameManager.CheckForLose(panel, loseLabel))))
+                    // Not spawns if the player either win or lose
+                    GameManager.SpawnCell(panel, cellsGrid);
                 GameManager.UpdateGame(panel, cellsGrid);
             }
 
             if (e.Key == Key.Right)
             {
-                panel.PushCellsRight();
-                GameManager.UpdateScore(panel, Score);
-                GameManager.CheckForWin(panel, winLabel);
-                GameManager.SpawnCell(panel, cellsGrid);
+                GameManager.UpdateLastState(panel);
+                GameManager.MoveCells(panel, "Right");
+                GameManager.UpdateScore(panel, scoreLabel);
+                if (!((GameManager.CheckForWin(panel, winLabel)) | (GameManager.CheckForLose(panel, loseLabel))))
+                    // Not spawns if the player either win or lose
+                    GameManager.SpawnCell(panel, cellsGrid);
                 GameManager.UpdateGame(panel, cellsGrid);
             }
+        }
+
+        private void Undo_Click(object sender, RoutedEventArgs e)
+        {
+            GameManager.LoadLastState(panel);
+            GameManager.UpdateScore(panel, scoreLabel);
+            GameManager.UpdateGame(panel, cellsGrid);
         }
     }
 }

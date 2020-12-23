@@ -16,7 +16,7 @@ namespace Game2048
         /// <param name="grid"> The cells grid connected with the panel object </param>
         /// <param name="label"> The score label or the win label depending the method who use it </param>
        
-        public static void InitializeGame(MainPanel panel, Grid grid, Label label)
+        public static void InitializeGame(MainPanel panel, Grid grid, Label win, Label lose)
         {
             // Fill the grid with empty labels (cells with value 0)
             for (int i = 0; i < panel.BoardSize; i++)
@@ -28,7 +28,9 @@ namespace Game2048
             // Reset the score and the win values
             panel.Score = 0;
             panel.Win = false;
-            ResetWinLabel(label);
+            panel.Lose = false;
+            ResetLabel(win);
+            ResetLabel(lose);
         }
 
         public static void UpdateGame(MainPanel panel, Grid grid)
@@ -97,30 +99,74 @@ namespace Game2048
 
         }
 
-        public static void CheckForWin(MainPanel panel, Label label)
+        public static bool CheckForWin(MainPanel panel, Label label)
         {
             // If the user wins, shows a label
             if (panel.Win)
             {
                 // Properties
-                label.Background = Brushes.Salmon;
+                label.Background = Brushes.DarkSeaGreen;
                 label.Content = "WINNER WINNER";
                 label.FontFamily = new FontFamily("Consolas");
                 label.FontSize = 50;
                 label.HorizontalContentAlignment = HorizontalAlignment.Center;
                 label.VerticalContentAlignment = VerticalAlignment.Center;
                 // Dependency properties
-                label.SetValue(Label.OpacityProperty, 0.75);
+                label.SetValue(Label.OpacityProperty, 0.8);
                 label.SetValue(Panel.ZIndexProperty, 1);
             }
+
+            return panel.Win;
         }
 
-        private static void ResetWinLabel(Label label)
+        public static bool CheckForLose(MainPanel panel, Label label)
+        {
+            // If the user lose, shows a label
+            if (panel.Lose)
+            {
+                // Properties
+                label.Background = Brushes.IndianRed;
+                label.Content = "YOU LOSE";
+                label.FontFamily = new FontFamily("Consolas");
+                label.FontSize = 50;
+                label.HorizontalContentAlignment = HorizontalAlignment.Center;
+                label.VerticalContentAlignment = VerticalAlignment.Center;
+                // Dependency properties
+                label.SetValue(Label.OpacityProperty, 0.8);
+                label.SetValue(Panel.ZIndexProperty, 1);
+            }
+
+            return panel.Lose;
+        }
+
+        private static void ResetLabel(Label label)
         {
             // Resets the win label content and hide it
             label.SetValue(Panel.ZIndexProperty, 0);
             label.Background = null;
             label.Content = null;
+        }
+
+        public static void UpdateLastState(MainPanel panel)
+        {
+            // Enqueue the previous status
+            panel.State = new GameState(panel.Score, panel.Cells);
+        }
+
+        public static void LoadLastState(MainPanel panel)
+        {
+            // Load the previous state
+            GameState previous = panel.State;
+            panel.Score = previous.score;
+            panel.Cells = previous.cells;
+        }
+
+        public static void MoveCells(MainPanel panel, String direction)
+        {
+            if (direction == "Up") panel.PushCellsUp();
+            if (direction == "Down") panel.PushCellsDown();
+            if (direction == "Left") panel.PushCellsLeft();
+            if (direction == "Right") panel.PushCellsRight();
         }
     }
 }

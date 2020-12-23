@@ -63,7 +63,6 @@
             />
 
             <!-- Undo button -->
-            <!-- TODO: functionality -->
             <Button Name="Undo" 
                 Grid.Column="2" 
                 Grid.Row="0"
@@ -72,6 +71,7 @@
                 Background="IndianRed"
                 Foreground="Black"
                 Margin="10,30,20,30"
+                Click="Undo_Click"
             />
 
             <!-- Score label -->
@@ -90,7 +90,7 @@
                         Width="100"
                     />
                     <Label 
-                        Name="Score"
+                        Name="scoreLabel"
                         Content="0"
                         Foreground="DarkOrange"
                         HorizontalContentAlignment="Center"
@@ -270,6 +270,11 @@
 
         <!-- This label will show the win message -->
         <Label Name="winLabel"
+            Grid.Row="1"
+            Panel.ZIndex="0"/>
+
+        <!-- This label will show the lose message -->
+        <Label Name="loseLabel"
             Grid.Row="1"
             Panel.ZIndex="0"/>
 

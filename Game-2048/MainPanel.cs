@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 
@@ -16,6 +17,8 @@ namespace Game2048
         private short columns;
         private int score;
         private bool win;
+        private bool lose;
+        private Queue<GameState> gameStates;
 
 
         // A List of Labels representing the Grid
@@ -43,17 +46,33 @@ namespace Game2048
             }
         }
 
-        // Status of the game
         public bool Win
         {
             get => win;
             set => win = value;
         }
 
+        public bool Lose
+        {
+            get => lose;
+            set => lose = value;
+        }
+
+        public GameState State
+        {
+            get => gameStates.Last();
+            set
+            {
+                if (gameStates.Count == 2) gameStates.Dequeue(); // All time 2 elements
+                gameStates.Enqueue(value);
+            }
+        }
+
         public MainPanel() 
         { 
             score = 0;
-            win = false;
+            win = lose = false;
+            gameStates = new Queue<GameState>(2);
         }
 
         public MainPanel(short BoardSize) 
@@ -61,7 +80,8 @@ namespace Game2048
             this.BoardSize = BoardSize;
             Cells = new Cell[BoardSize, BoardSize];
             score = 0;
-            win = false;
+            win = lose = false;
+            gameStates = new Queue<GameState>(2);
         }
 
         public void PushCellsUp()
@@ -93,7 +113,7 @@ namespace Game2048
                 // Looking for pairs
                 for (int x = 0; x < column.Length - 1; x++)
                 {
-                    if (column[x].GetValue() == column[x + 1].GetValue())
+                    if (column[x].CompareTo(column[x + 1]) == 0)
                     {
                         column[x] = new Cell(column[x + 1].GetValue() * 2);
                         column[x + 1] = new Cell(0);
@@ -118,6 +138,9 @@ namespace Game2048
                     Cells[j, i] = column[j];
                 }
             }
+
+            // Finally checks if the player looses
+            Lose = checkLose(Cells);
         }
 
         public void PushCellsDown()
@@ -149,7 +172,7 @@ namespace Game2048
                 // Looking for pairs
                 for (int x = column.Length - 1; x > 0; x--)
                 {
-                    if (column[x].GetValue() == column[x - 1].GetValue())
+                    if (column[x].CompareTo(column[x - 1]) == 0)
                     {
                         column[x] = new Cell(column[x - 1].GetValue() * 2);
                         column[x - 1] = new Cell(0);
@@ -174,6 +197,9 @@ namespace Game2048
                     Cells[j, i] = column[j];
                 }
             }
+
+            // Finally checks if the player looses
+            Lose = checkLose(Cells);
         }
 
         public void PushCellsLeft() 
@@ -205,7 +231,7 @@ namespace Game2048
                 // Looking for pairs
                 for (int x = 0; x < row.Length - 1; x++)
                 {
-                    if (row[x].GetValue() == row[x + 1].GetValue())
+                    if (row[x].CompareTo(row[x + 1]) == 0)
                     {
                         row[x] = new Cell(row[x + 1].GetValue() * 2);
                         row[x + 1] = new Cell(0);
@@ -230,6 +256,9 @@ namespace Game2048
                     Cells[i, j] = row[j];
                 }
             }
+
+            // Finally checks if the player looses
+            Lose = checkLose(Cells);
         }
 
         public void PushCellsRight()
@@ -261,7 +290,7 @@ namespace Game2048
                 // Looking for pairs
                 for (int x = row.Length - 1; x > 0; x--)
                 {
-                    if (row[x].GetValue() == row[x - 1].GetValue())
+                    if (row[x].CompareTo(row[x - 1]) == 0)
                     {
                         row[x] = new Cell(row[x - 1].GetValue() * 2);
                         row[x - 1] = new Cell(0);
@@ -286,6 +315,9 @@ namespace Game2048
                     Cells[i, j] = row[j];
                 }
             }
+
+            // Finally checks if the player looses
+            Lose = checkLose(Cells);
         }
 
         private Cell[] getRow(Cell[,] cells, int row) 
@@ -302,6 +334,29 @@ namespace Game2048
                 .ToArray();
         }
 
+        private bool checkLose(Cell[,] cells)
+        {
+            // Traverse the matrix and checks if it have 0's
+            for (int i = 0; i < BoardSize; i++)
+            {
+                for (int j = 0; j < BoardSize; j++)
+                {
+                    if (cells[i, j].GetValue() == 0) return false;
+                }
+            }
+            return true;
+        }
+    }
+    public class GameState
+    {
+        // This class have the information of a state of the game
+        public GameState(int score, Cell[,] cells)
+        {
+            this.score = score;
+            this.cells = cells;
+        }
+        public int score { get; set; }
+        public Cell[,] cells { get; set; }
     }
 
     public class InvalidBoardSizeException : System.Exception
