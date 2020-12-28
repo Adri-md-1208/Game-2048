@@ -31,8 +31,9 @@ namespace Game2048
             // When the user clicks the start button, the game will be restarted
             GameManager.InitializeGame(panel, cellsGrid, winLabel, loseLabel);
             GameManager.UpdateScore(panel, scoreLabel);
+            GameManager.UpdateLastState(ref panel); // Initial state
             GameManager.SpawnCell(panel, cellsGrid);
-            GameManager.UpdateLastState(panel);
+            GameManager.UpdateLastState(ref panel); // Fill the queue
         }
 
         private void Grid_KeyDown(object sender, KeyEventArgs e)
@@ -44,54 +45,59 @@ namespace Game2048
 
             if (e.Key == Key.Up)
             {
-                GameManager.UpdateLastState(panel);
+                GameManager.UpdateGame(panel, cellsGrid);
+                GameManager.UpdateLastState(ref panel);
                 GameManager.MoveCells(panel, "Up");
                 GameManager.UpdateScore(panel, scoreLabel);
                 if (!((GameManager.CheckForWin(panel, winLabel)) | (GameManager.CheckForLose(panel, loseLabel))))
                     // Not spawns if the player either win or lose
                     GameManager.SpawnCell(panel, cellsGrid);
-                GameManager.UpdateGame(panel, cellsGrid);
             }
 
             if (e.Key == Key.Down)
             {
-                GameManager.UpdateLastState(panel);
+                GameManager.UpdateGame(panel, cellsGrid);
+                GameManager.UpdateLastState(ref panel);
                 GameManager.MoveCells(panel, "Down");
                 GameManager.UpdateScore(panel, scoreLabel);
                 if (!((GameManager.CheckForWin(panel, winLabel)) | (GameManager.CheckForLose(panel, loseLabel))))
                     // Not spawns if the player either win or lose
                     GameManager.SpawnCell(panel, cellsGrid);
-                GameManager.UpdateGame(panel, cellsGrid);
             }
 
             if (e.Key == Key.Left)
             {
-                GameManager.UpdateLastState(panel);
+                GameManager.UpdateGame(panel, cellsGrid);
+                GameManager.UpdateLastState(ref panel);
                 GameManager.MoveCells(panel, "Left");
                 GameManager.UpdateScore(panel, scoreLabel);
                 if (!((GameManager.CheckForWin(panel, winLabel)) | (GameManager.CheckForLose(panel, loseLabel))))
                     // Not spawns if the player either win or lose
                     GameManager.SpawnCell(panel, cellsGrid);
-                GameManager.UpdateGame(panel, cellsGrid);
             }
 
             if (e.Key == Key.Right)
             {
-                GameManager.UpdateLastState(panel);
+                GameManager.UpdateGame(panel, cellsGrid);
+                GameManager.UpdateLastState(ref panel);
                 GameManager.MoveCells(panel, "Right");
                 GameManager.UpdateScore(panel, scoreLabel);
                 if (!((GameManager.CheckForWin(panel, winLabel)) | (GameManager.CheckForLose(panel, loseLabel))))
-                    // Not spawns if the player either win or lose
                     GameManager.SpawnCell(panel, cellsGrid);
-                GameManager.UpdateGame(panel, cellsGrid);
             }
         }
 
         private void Undo_Click(object sender, RoutedEventArgs e)
         {
-            GameManager.LoadLastState(panel);
-            GameManager.UpdateScore(panel, scoreLabel);
+            GameManager.LoadLastState(ref panel);
+            // If the last state is the initial, reset the game
+            if (panel == null)
+            {
+                panel = new MainPanel(4);
+                GameManager.InitializeGame(panel, cellsGrid, winLabel, loseLabel);
+            }
             GameManager.UpdateGame(panel, cellsGrid);
+            GameManager.UpdateScore(panel, scoreLabel);
         }
     }
 }

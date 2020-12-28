@@ -1,24 +1,25 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 
 namespace Game2048
 {
-    public class MainPanel
+    public class MainPanel : ICloneable
     {
         /// <summary>
         /// This class represents the board, which is binded with the grid
         /// through the GameManager
         /// The panel contents a matrix and some metadata like score or win status
         /// </summary>
-        
+
         private short rows;
         private short columns;
         private int score;
         private bool win;
         private bool lose;
-        private Queue<GameState> gameStates;
+        private Stack<MainPanel> gameStates;
 
 
         // A List of Labels representing the Grid
@@ -36,8 +37,8 @@ namespace Game2048
         }
 
         // Score of the game
-        public int Score 
-        { 
+        public int Score
+        {
             get => score;
             set
             {
@@ -58,21 +59,30 @@ namespace Game2048
             set => lose = value;
         }
 
-        public GameState State
+        public MainPanel GetLastState() 
         {
-            get => gameStates.Last();
-            set
+            try
             {
-                if (gameStates.Count == 2) gameStates.Dequeue(); // All time 2 elements
-                gameStates.Enqueue(value);
+                return gameStates.Peek();
+            } 
+            catch (InvalidOperationException) 
+            {
+                return null;
             }
+
         }
 
+        public void StackState(MainPanel state)
+        {
+            if (gameStates.Count == 2) gameStates.Pop();
+            gameStates.Push(state); 
+        }
+        
         public MainPanel() 
         { 
             score = 0;
             win = lose = false;
-            gameStates = new Queue<GameState>(2);
+            gameStates = new Stack<MainPanel>(2);
         }
 
         public MainPanel(short BoardSize) 
@@ -81,7 +91,7 @@ namespace Game2048
             Cells = new Cell[BoardSize, BoardSize];
             score = 0;
             win = lose = false;
-            gameStates = new Queue<GameState>(2);
+            gameStates = new Stack<MainPanel>(2);
         }
 
         public void PushCellsUp()
@@ -346,17 +356,19 @@ namespace Game2048
             }
             return true;
         }
-    }
-    public class GameState
-    {
-        // This class have the information of a state of the game
-        public GameState(int score, Cell[,] cells)
+
+        public object Clone()
         {
-            this.score = score;
-            this.cells = cells;
+            // Deep copy
+            MainPanel copy = new MainPanel(BoardSize);
+            copy.Cells = (Cell[,])this.Cells.Clone();
+            copy.score = Int32.Parse(new String(this.score.ToString()));
+            copy.win = this.Win;
+            copy.lose = this.Lose;
+            copy.gameStates = this.gameStates;
+            return copy;
         }
-        public int score { get; set; }
-        public Cell[,] cells { get; set; }
+
     }
 
     public class InvalidBoardSizeException : System.Exception

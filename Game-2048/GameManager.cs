@@ -147,18 +147,17 @@ namespace Game2048
             label.Content = null;
         }
 
-        public static void UpdateLastState(MainPanel panel)
+        public static void UpdateLastState(ref MainPanel panel)
         {
-            // Enqueue the previous status
-            panel.State = new GameState(panel.Score, panel.Cells);
+            // Enqueue the last state
+            MainPanel last = (MainPanel) panel.Clone();
+            panel.StackState(last);
         }
 
-        public static void LoadLastState(MainPanel panel)
+        public static void LoadLastState(ref MainPanel panel)
         {
             // Load the previous state
-            GameState previous = panel.State;
-            panel.Score = previous.score;
-            panel.Cells = previous.cells;
+            panel = panel.GetLastState();
         }
 
         public static void MoveCells(MainPanel panel, String direction)
