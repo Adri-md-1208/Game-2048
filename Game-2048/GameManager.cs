@@ -15,8 +15,8 @@ namespace Game2048
         ///                      with the cells grid control </param>
         /// <param name="grid"> The cells grid connected with the panel object </param>
         /// <param name="label"> The score label or the win label depending the method who use it </param>
-       
-        public static void InitializeGame(MainPanel panel, Grid grid, Label win, Label lose)
+
+        public static void InitializeGame(Panel panel, Grid grid, Label win, Label lose)
         {
             // Fill the grid with empty labels (cells with value 0)
             for (int i = 0; i < panel.BoardSize; i++)
@@ -29,11 +29,11 @@ namespace Game2048
             panel.Score = 0;
             panel.Win = false;
             panel.Lose = false;
-            ResetLabel(win);
-            ResetLabel(lose);
+            HideLabel(win);
+            HideLabel(lose);
         }
 
-        public static void UpdateGame(MainPanel panel, Grid grid)
+        public static void UpdateBoard(Panel panel, Grid grid)
         {
             // This loop updates the content of every cell in the grid with
             // his corresponding value in the cells matrix
@@ -64,13 +64,13 @@ namespace Game2048
                             .SetValue(ContentControl.ContentProperty, null);
                 }
         }
-        
-        public static void PutCellInPanel(Cell cell, MainPanel panel, int x, int y)
+
+        public static void PutCellInPanel(Cell cell, Panel panel, int x, int y)
         {
             panel.Cells[x, y] = cell;
         }
 
-        public static void SpawnCell(MainPanel panel, Grid grid)
+        public static void SpawnCell(Panel panel, Grid grid)
         {
             // Spawns a 2 or 4 cell in random position
             var rng = new Random();
@@ -90,19 +90,21 @@ namespace Game2048
             }
 
             PutCellInPanel(cell, panel, x, y);
-            UpdateGame(panel, grid);
-        } 
+            UpdateBoard(panel, grid);
+        }
 
-        public static void UpdateScore(MainPanel panel, Label label)
+        public static void UpdateScoreLabel(Panel panel, Label label)
         {
             label.Content = panel.Score;
 
         }
 
-        public static bool CheckForWin(MainPanel panel, Label label)
+        public static bool CheckForWin(Panel panel) => panel.Win;
+
+        public static void UpdateWinLabel(Panel panel, Label label)
         {
             // If the user wins, shows a label
-            if (panel.Win)
+            if (CheckForWin(panel))
             {
                 // Properties
                 label.Background = Brushes.DarkSeaGreen;
@@ -113,16 +115,16 @@ namespace Game2048
                 label.VerticalContentAlignment = VerticalAlignment.Center;
                 // Dependency properties
                 label.SetValue(Label.OpacityProperty, 0.8);
-                label.SetValue(Panel.ZIndexProperty, 1);
+                label.SetValue(System.Windows.Controls.Panel.ZIndexProperty, 1);
             }
-
-            return panel.Win;
         }
 
-        public static bool CheckForLose(MainPanel panel, Label label)
+        public static bool CheckForLose(Panel panel) => panel.Lose;
+
+        public static void UpdateLoseLabel(Panel panel, Label label)
         {
             // If the user lose, shows a label
-            if (panel.Lose)
+            if (CheckForLose(panel))
             {
                 // Properties
                 label.Background = Brushes.IndianRed;
@@ -133,39 +135,51 @@ namespace Game2048
                 label.VerticalContentAlignment = VerticalAlignment.Center;
                 // Dependency properties
                 label.SetValue(Label.OpacityProperty, 0.8);
-                label.SetValue(Panel.ZIndexProperty, 1);
+                label.SetValue(System.Windows.Controls.Panel.ZIndexProperty, 1);
             }
-
-            return panel.Lose;
         }
 
-        private static void ResetLabel(Label label)
+        public static bool CheckIfPlayerWonOrLost(Panel panel)
+        {
+            bool playerWin = (CheckForWin(panel));
+            bool playerLose = (CheckForLose(panel));
+            return playerWin || playerLose;
+        }
+
+        private static void HideLabel(Label label)
         {
             // Resets the win label content and hide it
-            label.SetValue(Panel.ZIndexProperty, 0);
+            label.SetValue(System.Windows.Controls.Panel.ZIndexProperty, 0);
             label.Background = null;
             label.Content = null;
         }
 
-        public static void UpdateLastState(ref MainPanel panel)
+        public static void SetLastGameState(ref Panel panel)
         {
             // Enqueue the last state
-            MainPanel last = (MainPanel) panel.Clone();
-            panel.StackState(last);
+            Panel last = (Panel)panel.Clone();
+            panel.SetLastGameState(last);
         }
 
-        public static void LoadLastState(ref MainPanel panel)
+        public static void GetLastGameState(ref Panel panel)
         {
             // Load the previous state
-            panel = panel.GetLastState();
+            panel = panel.GetLastGameState();
         }
 
-        public static void MoveCells(MainPanel panel, String direction)
+        public static void MoveCells(Panel panel, String direction)
         {
-            if (direction == "Up") panel.PushCellsUp();
-            if (direction == "Down") panel.PushCellsDown();
-            if (direction == "Left") panel.PushCellsLeft();
-            if (direction == "Right") panel.PushCellsRight();
+            if (direction == "Up") panel.MoveCellsUp();
+            if (direction == "Down") panel.MoveCellsDown();
+            if (direction == "Left") panel.MoveCellsLeft();
+            if (direction == "Right") panel.MoveCellsRight();
         }
+
+        public static void UpdateWinAndLoseProperties(Panel panel)
+        {
+            panel.updateWinProperty();
+            panel.updateLoseProperty();
+        }
+
     }
 }
